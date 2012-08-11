@@ -1,4 +1,5 @@
 var express = require('express'),
+
     util = require('util'),
     fs = require('fs'),
     https = require("https"),
@@ -6,7 +7,7 @@ var express = require('express'),
 
 var app = express.createServer(),
     io = require('socket.io').listen(app),
-    port = (process.env.PORT || 3000);
+    port = (8080);
 
 // Remove debug messages from socket.io
 io.set('log level', 1);
@@ -39,7 +40,8 @@ app.get('/callback', function(request, response){
   if(request.param("hub.challenge") != null){
     response.send(request.param("hub.challenge"));
   } else {
-    console.log("ERROR on suscription request: %s", util.inspect(request));
+    console.log("ERROR on suscription request: %s");
+	// , util.inspect(request)
   }
 });
 
@@ -51,6 +53,7 @@ app.get('/callback', function(request, response){
 //   photo from that geography
 app.post('/callback', function(request, response){
   // request.body is a JSON already parsed
+	console.log('something just accessed /callback');
   request.body.forEach(function(notificationOjb){
     // Every notification object contains the id of the geography
     // that has been updated, and the photo can be obtained from
@@ -72,7 +75,9 @@ app.post('/callback', function(request, response){
       res.on('end', function() {
         var response = JSON.parse(raw);
         if(response['data'].length > 0 && response['data'][0]['location'] != null) {
+			//either send JSON here or an <img> tag??
           io.sockets.emit('photo', raw);
+			console.log("New Photo!");
         } else {
           console.log("ERROR: %s", util.inspect(response['meta']));
         }
@@ -82,6 +87,11 @@ app.post('/callback', function(request, response){
   });
 
   response.writeHead(200);
+});
+
+io.sockets.on('connection', function (socket) {
+  io.sockets.emit('connection', 'test' );
+	console.log("connected");
 });
 
 // Run the app

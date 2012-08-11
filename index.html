@@ -1,98 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-  <title>Instagram Realtime Demo</title>
-  <!--[if IE]>
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
-  <script src="//maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-  <script type="text/javascript" src="socket.io/socket.io.js"></script>
-  <link type="text/css" rel="stylesheet" href="style.css" />
+<html>
 
-  <script type="text/javascript">
-    $(function() {
+<head>
+	<title>CLT Instagram</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 
-      // var host = 'http://localhost';
-      var host = 'http://instagram-realtime-demo.herokuapp.com',
-          photos = [],
-          socket = io.connect(host);
-
-      socket.on('photo', function (raw) {
-        var photo = JSON.parse(raw)['data'][0];
-        photos.push(photo.link);
-        loadInfoWindow(photo);
-        setupMarker(photo);
-        $('h1 span').html('(' + photos.length + ' ' + (photos.length == 1 ? 'photo' : 'photos') + ')');
-      });
-
-      function setupMarker(photo){
-        var position = new google.maps.LatLng(photo.location.latitude, photo.location.longitude);
-        map.setCenter(position);
-        var marker = new google.maps.Marker({ position:position,map:map,animation:google.maps.Animation.DROP,html:photo});
-        google.maps.event.addListener(marker, "click", function () {
-          loadInfoWindow(this.html);
-        });
-      }
-
-      function loadInfoWindow(photo){
-        var date = new Date(parseInt(photo.created_time)*1000),
-            formatedDate = date.getFullYear() + '-' + parseInt(date.getMonth()+1) + '-' + date.getDate() +
-                           ' ' + date.getUTCHours() + ':' + date.getUTCMinutes() + ':' + date.getUTCSeconds();
-        $('.item_data img').attr('src', photo.user.profile_picture);
-        $('.item_data p strong').html(photo.user.username);
-        $('.item_data span.date').html(formatedDate);
-        $('.item_data a').attr('href', photo.link);
-        $('.content.instagram').html('<img src="' + photo.images.low_resolution.url + '" />');
-        $('#content').show();
-      }
-
-      var mapOptions = {
-        zoom: 15,
-        center: new google.maps.LatLng(40.4166909, -3.70034540000006),
-        disableDefaultUI: true,
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-        styles: [
-          { stylers: [ { saturation: -65 }, { gamma: 1.52 } ] },
-          { featureType: "administrative", stylers: [ { saturation: -95 },{ gamma: 2.26 } ] },
-          { featureType: "water", elementType: "labels", stylers: [ { visibility: "off" } ] },
-          // Remove road names
-          { featureType: "road", stylers: [ { visibility: "simplified" }, { saturation: -99 }, { gamma: 2.22 } ] },
-          { featureType: "poi", elementType: "labels", stylers: [ { visibility: "off" },{ saturation: -55 } ] }
-        ]
-      };
-
-      var map = new google.maps.Map(document.getElementById("map_container"), mapOptions);
-    });
-  </script>
 </head>
+
 <body>
+	
+	<div class="instagram"></div>
+	
+	<!--
+	<script src="http://localhost:8080/socket.io/socket.io.js"></script>
+	<script>
+	  var socket = io.connect('http://localhost:8080');
+	
+		socket.emit('testconnection');
+	
+	  socket.on('instagram', function (data) {
+	    alert(data);
+	  });
+	</script>
+-->
+	<script src="http://localhost:8080/socket.io/socket.io.js"></script>
+	<script>
+	  var socket = io.connect('http://localhost:8080');
+	  socket.on('connection', function (data) {
+	    
+		$('.instagram').append(data + '<br>');
+		
+	  });
+	</script>
 
-<header id="top_bar">
-  <h1>Madrid instagr.am activity <span></span></h1>
-</header>
 
-<div class="popover" id="content" style="display:none">
-  <div class="header">
-    <div class="item_data">
-      <img src="" alt="" class="avatar">
-      <p>
-        <strong></strong><br>
-        <span class="date"></span> · <a href="#" target="blank">#permalink</a>
-      </p>
-    </div>
-  </div>
-  <div class="instagram content"></div>
-</div>
 
-<div id="outer_map_container">
-  <div id="map_container"></div>
-</div>
-
-<div class="progress_bar">
-  <a href="https://github.com/ferblape/instagram-realtime-demo" target="blank">Fork me on Github</a>
-</div>
-
-</body></html>
+</body>
+</html>
