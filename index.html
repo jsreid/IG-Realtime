@@ -2,14 +2,15 @@
 <html>
 
 <head>
-	<title>CLT Instagram</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<title>CLT Instagram</title>
+
 
 </head>
 
 <body>
 	
 	<div class="instagram"></div>
+	<div id="test"></div>
 	
 	<!--
 	<script src="http://localhost:8080/socket.io/socket.io.js"></script>
@@ -23,15 +24,56 @@
 	  });
 	</script>
 -->
-	<script src="http://localhost:8080/socket.io/socket.io.js"></script>
-	<script>
-	  var socket = io.connect('http://localhost:8080');
-	  socket.on('connection', function (data) {
-	    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="http://localhost:8080/socket.io/socket.io.js"></script>
+<script>
+	var socket = io.connect('http://localhost:8080');
+	socket.on('connection', function (data) {
 		$('.instagram').append(data + '<br>');
+	});
+	
+	
+	
+	$(function() {
+		// var host = 'http://localhost';
+		var host = 'http://instagram-realtime-demo.herokuapp.com',
+		photos = [],
+		socket = io.connect(host);
+
+		socket.on('photo', function (raw) {
+			var photo = JSON.parse(raw)['data'][0];
+			photos.push(photo.link);
+			pushPhoto(photo);
+			$('h1').html('(' + photos.length + ' ' + (photos.length == 1 ? 'photo' : 'photos') + ')');
+		});
+
+
+
+		function pushPhoto(photo){
+			var date = new Date(parseInt(photo.created_time)*1000);
+			var formatedDate = 
+				date.getFullYear() + '-' + 
+				parseInt(date.getMonth()+1) + '-' + 
+				date.getDate() + ' ' + 
+				date.getUTCHours() + ':' + 
+				date.getUTCMinutes() + ':' + 
+				date.getUTCSeconds();
 		
-	  });
-	</script>
+			var photo_src = photo.images.low_resolution.url;
+			var profile_pic = photo.user.profile_picture;
+			var username = photo.user.username;
+			var photo_link = photo.link;
+		
+			$('#test').append(
+				'<img  src="' + photo_src + '" alt=" " /><br/>' +
+				'<h1></h1>'
+				'<p>Time: ' + formatedDate + '</p>'
+			);
+		}
+		
+	});
+	
+</script>
 
 
 
