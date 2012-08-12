@@ -15,6 +15,9 @@ io.set('log level', 1);
 // Allow to parse the body of the POST requests
 app.use(express.bodyParser());
 
+//INSTAGRAM CLIENT ID
+var instagram_client_id = 'dabe8eae6f75464ba43a7a4805aed29e';
+
 // GET /style.css
 //   Render public/stylesheets/style.css
 app.get('/style.css', function(request, response){
@@ -61,7 +64,7 @@ app.post('/callback', function(request, response){
     https.get({
       host: 'api.instagram.com',
       path: '/v1/geographies/' + notificationOjb.object_id + '/media/recent' +
-      '?' + querystring.stringify({client_id: process.env.instagram_client_id,count: 1}),
+      '?' + querystring.stringify({client_id: instagram_client_id,count: 1}),
     }, function(res){
       var raw = "";
 
