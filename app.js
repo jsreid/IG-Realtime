@@ -7,7 +7,7 @@ var express = require('express'),
 
 var app = express.createServer(),
     io = require('socket.io').listen(app),
-    port = (8080);
+    port = (process.env.PORT || 8080);
 
 // Remove debug messages from socket.io
 io.set('log level', 1);
