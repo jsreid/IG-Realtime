@@ -12,6 +12,8 @@ var app = express.createServer(),
 // Remove debug messages from socket.io
 io.set('log level', 1);
 
+
+
 // Allow to parse the body of the POST requests
 app.use(express.bodyParser());
 
@@ -21,6 +23,7 @@ var instagram_client_id = 'eec7fe0344b44e37a84f83e4a07d3e6a';
 // GET /style.css
 //   Render public/stylesheets/style.css
 app.get('/style.css', function(request, response){
+	
     response.writeHead(200, {'Content-Type': 'text/css'});
     response.write(fs.readFileSync(__dirname + '/public/stylesheets/style.css', 'utf8'));
     response.end();
@@ -30,6 +33,7 @@ app.get('/style.css', function(request, response){
 //   Render index.html
 app.get('/', function(request, response){
   response.writeHead(200, {'Content-Type': 'text/html'});
+console.log(response);
   response.write(fs.readFileSync('./index.html', 'utf8'));
   response.end();
 });
@@ -40,7 +44,7 @@ app.get('/', function(request, response){
 //   to check if the callback URL provided when creating the suscription
 //   is valid and works fine
 app.get('/callback', function(request, response){
-	console.log('response ' + response);
+	
   if(request.param("hub.challenge") != null){
     response.send(request.param("hub.challenge"));
   } else {
@@ -56,7 +60,7 @@ app.get('/callback', function(request, response){
 //   It's necessary to perform another API call to get the last
 //   photo from that geography
 app.post('/callback', function(request, response){
-	console.log('response ' + response);
+	
   // request.body is a JSON already parsed
 	console.log('new photo');
 	
