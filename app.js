@@ -40,6 +40,7 @@ app.get('/', function(request, response){
 //   to check if the callback URL provided when creating the suscription
 //   is valid and works fine
 app.get('/callback', function(request, response){
+	console.log('response ' + response);
   if(request.param("hub.challenge") != null){
     response.send(request.param("hub.challenge"));
   } else {
@@ -55,6 +56,7 @@ app.get('/callback', function(request, response){
 //   It's necessary to perform another API call to get the last
 //   photo from that geography
 app.post('/callback', function(request, response){
+	console.log('response ' + response);
   // request.body is a JSON already parsed
 	console.log('new photo');
 	
