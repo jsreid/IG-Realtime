@@ -44,7 +44,10 @@ console.log(response);
 //   to check if the callback URL provided when creating the suscription
 //   is valid and works fine
 app.get('/callback', function(request, response){
+<<<<<<< HEAD
 	
+=======
+>>>>>>> a28963c80e8e6205b6615d6207e9a6bc1cd019c9
   if(request.param("hub.challenge") != null){
     response.send(request.param("hub.challenge"));
   } else {
@@ -60,9 +63,13 @@ app.get('/callback', function(request, response){
 //   It's necessary to perform another API call to get the last
 //   photo from that geography
 app.post('/callback', function(request, response){
+<<<<<<< HEAD
 	
+=======
+	//console.log('response ' + request.body);
+>>>>>>> a28963c80e8e6205b6615d6207e9a6bc1cd019c9
   // request.body is a JSON already parsed
-	console.log('new photo');
+	console.log('Recieved photo notification');
 	
 	 // io.sockets.emit('connection', 'New Photo!' );
 	
@@ -70,6 +77,9 @@ app.post('/callback', function(request, response){
     // Every notification object contains the id of the geography
     // that has been updated, and the photo can be obtained from
     // that geography
+	// https://api.instagram.com/v1/geographies/{geo-id}/media/recent?client_id=YOUR-CLIENT_IDs
+	console.log('Object ID: ' + notificationOjb.object_id);
+	console.log('Object: ' + notificationOjb.object);
     https.get({
       host: 'api.instagram.com',
       path: '/v1/geographies/' + notificationOjb.object_id + '/media/recent' +
@@ -78,6 +88,7 @@ app.post('/callback', function(request, response){
       var raw = "";
 
       res.on('data', function(chunk) {
+		//console.log('BODY: ' + chunk);
         raw += chunk;
       });
 
@@ -89,6 +100,7 @@ app.post('/callback', function(request, response){
         if(response['data'].length > 0 && response['data'][0]['location'] != null) {
 			//either send JSON here or an <img> tag??
           io.sockets.emit('photo', raw);
+			console.log('Sent photo JSON to client');
         } else {
           console.log("ERROR: %s", util.inspect(response['meta']));
         }
