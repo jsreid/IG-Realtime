@@ -19,21 +19,24 @@
 	
 	<script src="http://jsreid.jit.su/socket.io/socket.io.js"></script>
 	<script>
-	  var socket = io.connect('http://jsreid.jit.su/');
-	  socket.on('connection', function (data) {
-	    
+	var socket = io.connect('http://jsreid.jit.su/');
+	socket.on('connection', function (data) {
 		$('.instagram').append(data + '<br>');
-		
-	  });
+	});
 	
-	  socket.on('photo', function (raw) {
-	    
+	// Get recent images 
+	// Static json so the page load with preloaded photos
+	// https://api.instagram.com/v1/geographies/1369637/media/recent?client_id=eec7fe0344b44e37a84f83e4a07d3e6a
+	
+	socket.on('photo', function (raw) {
+
 		var obj = JSON.parse(raw)['data'][0];
+		console.log(obj);
+		
 		var photo = obj.images.low_resolution.url;
-	
 		$('.photo').prepend('<img src="' + photo + '">&nbsp;');
 		
-	  });
+	});
 	</script>
 
 
