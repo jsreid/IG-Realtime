@@ -24,7 +24,10 @@
 	
 	  socket.on('photo', function (raw) {
 	    
-		$('.photo').append(raw + '<br>');
+		var obj = JSON.parse(raw)['data'][0];
+		var photo = obj.images.low_resolution.url;
+	
+		$('.photo').prepend('<img src="' + photo + '">&nbsp;');
 		
 	  });
 	</script>
