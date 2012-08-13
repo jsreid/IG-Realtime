@@ -8,8 +8,8 @@ $lat = '40.756884';
 $lng = '-73.986185';
 $radius = '5000';
 $verify_token='1';
-$callback_url = 'http://jsreid.com/instagram/callback.php';
-//$callback_url = 'http://4dbw.localtunnel.com/callback';
+//$callback_url = 'http://jsreid.com/instagram/callback.php';
+$callback_url = 'http://jsreid.jit.su/callback/';
 
 //SETTING UP THE CURL SETTINGS...
 $attachment =  array(

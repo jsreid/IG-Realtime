@@ -16,7 +16,7 @@ io.set('log level', 1);
 app.use(express.bodyParser());
 
 //INSTAGRAM CLIENT ID
-var instagram_client_id = 'dabe8eae6f75464ba43a7a4805aed29e';
+var instagram_client_id = 'eec7fe0344b44e37a84f83e4a07d3e6a';
 
 // GET /style.css
 //   Render public/stylesheets/style.css
@@ -56,7 +56,10 @@ app.get('/callback', function(request, response){
 //   photo from that geography
 app.post('/callback', function(request, response){
   // request.body is a JSON already parsed
-	console.log('something just accessed /callback');
+	console.log('new photo');
+	
+	 // io.sockets.emit('connection', 'New Photo!' );
+	
   request.body.forEach(function(notificationOjb){
     // Every notification object contains the id of the geography
     // that has been updated, and the photo can be obtained from
@@ -80,7 +83,6 @@ app.post('/callback', function(request, response){
         if(response['data'].length > 0 && response['data'][0]['location'] != null) {
 			//either send JSON here or an <img> tag??
           io.sockets.emit('photo', raw);
-			console.log("New Photo!");
         } else {
           console.log("ERROR: %s", util.inspect(response['meta']));
         }
@@ -93,7 +95,7 @@ app.post('/callback', function(request, response){
 });
 
 io.sockets.on('connection', function (socket) {
-  io.sockets.emit('connection', 'test' );
+  //io.sockets.emit('connection', 'user connected' );
 	console.log("connected");
 });
 

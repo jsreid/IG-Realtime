@@ -11,24 +11,20 @@
 	
 	<div class="instagram"></div>
 	
-	<!--
-	<script src="http://localhost:8080/socket.io/socket.io.js"></script>
-	<script>
-	  var socket = io.connect('http://localhost:8080');
+	<div class="photo"></div>
 	
-		socket.emit('testconnection');
-	
-	  socket.on('instagram', function (data) {
-	    alert(data);
-	  });
-	</script>
--->
-	<script src="http://localhost:8080/socket.io/socket.io.js"></script>
+	<script src="http://jsreid.jit.su/socket.io/socket.io.js"></script>
 	<script>
-	  var socket = io.connect('http://localhost:8080');
+	  var socket = io.connect('http://jsreid.jit.su/');
 	  socket.on('connection', function (data) {
 	    
 		$('.instagram').append(data + '<br>');
+		
+	  });
+	
+	  socket.on('photo', function (raw) {
+	    
+		$('.photo').append(raw + '<br>');
 		
 	  });
 	</script>
