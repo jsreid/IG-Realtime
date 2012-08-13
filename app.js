@@ -57,7 +57,7 @@ app.get('/callback', function(request, response){
 app.post('/callback', function(request, response){
 	//console.log('response ' + request.body);
   // request.body is a JSON already parsed
-	console.log('new photo');
+	console.log('Recieved photo notification');
 	
 	 // io.sockets.emit('connection', 'New Photo!' );
 	
@@ -67,6 +67,7 @@ app.post('/callback', function(request, response){
     // that geography
 	// https://api.instagram.com/v1/geographies/{geo-id}/media/recent?client_id=YOUR-CLIENT_IDs
 	console.log('Object ID: ' + notificationOjb.object_id);
+	console.log('Object: ' + notificationOjb.object);
     https.get({
       host: 'api.instagram.com',
       path: '/v1/geographies/' + notificationOjb.object_id + '/media/recent' +
@@ -75,7 +76,7 @@ app.post('/callback', function(request, response){
       var raw = "";
 
       res.on('data', function(chunk) {
-		console.log('BODY: ' + chunk);
+		//console.log('BODY: ' + chunk);
         raw += chunk;
       });
 
@@ -84,10 +85,10 @@ app.post('/callback', function(request, response){
       // If so, the photo is emitted through the websocket
       res.on('end', function() {
         var response = JSON.parse(raw);
-		console.log('response ' + response);
         if(response['data'].length > 0 && response['data'][0]['location'] != null) {
 			//either send JSON here or an <img> tag??
           io.sockets.emit('photo', raw);
+			console.log('Sent photo JSON to client');
         } else {
           console.log("ERROR: %s", util.inspect(response['meta']));
         }
