@@ -28,10 +28,36 @@
 	// Static json so the page load with preloaded photos
 	// https://api.instagram.com/v1/geographies/1369637/media/recent?client_id=eec7fe0344b44e37a84f83e4a07d3e6a
 	
+	
+	
+	(function($) {
+		
+		
+		$.ajax({
+			type: "GET",
+			dataType: "jsonp",
+			cache: false,
+			url: "https://api.instagram.com/v1/geographies/1369637/media/recent?client_id=eec7fe0344b44e37a84f83e4a07d3e6a",
+			success: function(data) {
+				console.log(data);
+				
+				var obj = data;
+				
+				for (var i = 12; i >= 0; i--) {
+					var low_src = obj.data[i].images.low_resolution.url;
+					$('.photo').prepend('<img src="' + low_src + '">&nbsp;');
+				}
+			}
+		});
+		
+		
+	})(jQuery);
+	
+
 	socket.on('photo', function (raw) {
 
 		var obj = JSON.parse(raw)['data'][0];
-		console.log(obj);
+		//console.log(obj);
 		
 		var photo = obj.images.low_resolution.url;
 		$('.photo').prepend('<img src="' + photo + '">&nbsp;');

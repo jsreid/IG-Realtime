@@ -1,7 +1,7 @@
 {
   "name": "instagram-realtime-demo",
   "author": "Fernando Blat <ferblape@gmail.com>",
-  "version": "0.1.0-57",
+  "version": "0.1.0-69",
   "description": "Node.js proof of concept of Instagram Realtime API",
   "main": "./app.js",
   "licenses": [
