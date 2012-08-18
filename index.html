@@ -41,7 +41,14 @@
 		success: function(response) {
 			console.log(response);
 			
-			for (var i = 12; i >= 0; i--) {
+			// Get the amount of images in the recent images Instagram feed
+			var amount = response.data.length;
+			
+			// Subtract 1 from the length because the array starts at 0
+			amount = amount - 1;
+			
+			// Loop through the available images and print to screen
+			for (var i = amount - 1; i >= 0; i--) {
 				var low_src = response.data[i].images.low_resolution.url;
 				$('.photo').prepend('<img src="' + low_src + '">&nbsp;');
 			}
