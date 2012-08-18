@@ -9,6 +9,16 @@ var app = express.createServer(),
     io = require('socket.io').listen(app),
     port = (process.env.PORT || 8080);
 
+// connect to Redis client
+// redis://nodejitsu:ad567e1e425c194175c024d19f71989f@cod.redistogo.com:10217/
+var redis = require("redis"),
+	client = redis.createClient(10217, 'http://cod.redistogo.com', {parser: 'javascript'});
+	client.auth('nodejitsu', 'ad567e1e425c194175c024d19f71989f');
+	
+client.on("error", function (err) {
+	console.log("Error " + err);
+});
+
 // Remove debug messages from socket.io
 io.set('log level', 1);
 
