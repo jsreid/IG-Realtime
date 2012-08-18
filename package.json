@@ -2,7 +2,6 @@
   "name": "instagram-realtime-demo",
   "author": "Jason Reid/Alex Miles <skatesc@gmail.com>",
   "version": "0.1.0-81",
->>>>>>> 4ff8531256b5d054a29594b6a8bbe84a0de177a8
   "description": "Node.js proof of concept of Instagram Realtime API",
   "main": "./app.js",
   "licenses": [
