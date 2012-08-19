@@ -1,5 +1,4 @@
 var express = require('express'),
-
     util = require('util'),
     fs = require('fs'),
     https = require("https"),
@@ -13,6 +12,7 @@ var app = express(),
 
 // connect to Redis client
 // redis://nodejitsu:ad567e1e425c194175c024d19f71989f@cod.redistogo.com:10217/
+<<<<<<< HEAD
 var redis = require("redis");
 	var client = redis.createClient(10217, 'cod.redistogo.com');
 
@@ -43,6 +43,15 @@ var redis = require("redis");
 	  });
 	});
 	//end redis test
+=======
+/* var redis = require("redis"),
+	client = redis.createClient(10217, 'http://cod.redistogo.com', {parser: 'javascript'});
+	client.auth('nodejitsu', 'ad567e1e425c194175c024d19f71989f');  
+	
+client.on("error", function (err) {
+	console.log("Error " + err);
+}); */
+>>>>>>> 109a5a62b2f0363f49309b636fcc270dbd71bdd6
 
 // Remove debug messages from socket.io
 io.set('log level', 1);
@@ -56,10 +65,17 @@ var instagram_client_id = 'eec7fe0344b44e37a84f83e4a07d3e6a';
 // GET /style.css
 //   Render public/stylesheets/style.css
 app.get('/style.css', function(request, response){
+	response.writeHead(200, {'Content-Type': 'text/css'});
+	response.write(fs.readFileSync(__dirname + '/public/stylesheets/style.css', 'utf8'));
+	response.end();
+});
+
+app.get('/isotope.min.js', function(request, response){
     response.writeHead(200, {'Content-Type': 'text/css'});
-    response.write(fs.readFileSync(__dirname + '/public/stylesheets/style.css', 'utf8'));
+    response.write(fs.readFileSync(__dirname + '/public/javascripts/isotope.min.js', 'utf8'));
     response.end();
 });
+
 
 // GET /
 //   Render index.html

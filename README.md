@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+# Realtime Instagram Viewer for Charlotte
+
+Using Node.js, Instagram Real-Time updates, and the Instagram API.
+=======
 # Charlotte, NC Instagram Feed
 
 This Node.js application implements a client of [Instagram realtime API](http://instagram.com/developer/realtime/):
@@ -19,3 +24,4 @@ To see the project on-line visit this URL: (http://instagram-realtime-demo.herok
 - [@denegro](http://denegro.com) for the HTML and the CSS
 - [@cartodb](http://cartodb.com) for the styling of the map
 - [@heroku](http://heroku.com) for hosting the application and making the deploy in such a trivial thing
+>>>>>>> master
