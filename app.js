@@ -12,8 +12,8 @@ var app = express(),
 
 // connect to Redis client
 // redis://nodejitsu:ad567e1e425c194175c024d19f71989f@cod.redistogo.com:10217/
-<<<<<<< HEAD
-var redis = require("redis");
+
+/*var redis = require("redis");
 	var client = redis.createClient(10217, 'cod.redistogo.com');
 
 	client.auth('ad567e1e425c194175c024d19f71989f', function (err) {
@@ -42,16 +42,8 @@ var redis = require("redis");
 	    });
 	  });
 	});
-	//end redis test
-=======
-/* var redis = require("redis"),
-	client = redis.createClient(10217, 'http://cod.redistogo.com', {parser: 'javascript'});
-	client.auth('nodejitsu', 'ad567e1e425c194175c024d19f71989f');  
-	
-client.on("error", function (err) {
-	console.log("Error " + err);
-}); */
->>>>>>> 109a5a62b2f0363f49309b636fcc270dbd71bdd6
+	//end redis test */
+
 
 // Remove debug messages from socket.io
 io.set('log level', 1);
