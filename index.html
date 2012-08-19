@@ -14,9 +14,7 @@
 	
 	<span>Instagram</span>
 	
-	<div id="container">
-		<div class="thumb"></div>
-	</div>
+	<div id="container"></div>
 	<div id="photos"></div>
 
 </body>
@@ -49,10 +47,10 @@
 		$('.photo').prepend('<img src="' + photo + '">&nbsp;');
 	}); */
 	
-
-	var $container = $('#container');
-	var $thumb = $('.thumb')
-	var objString;
+	// Initialize some variables
+	var $container = $('#container'),
+		$thumb = $('.thumb'),
+		objString;
 	
 	$container.isotope({
 		sortBy: 'original-order',
@@ -81,10 +79,13 @@
 			for (var i = amount; i >= 0; i--) {
 				var low_src = response.data[i].images.thumbnail.url;
 				var hi_src = response.data[i].images.standard_resolution.url;
-				objString += '<img class="thumb" data-hires="' + hi_src + '" width="150" height"150" src="' + low_src + '">';
+				objString += '<img class="thumb" data-lowres="' + low_src + '" data-hires="' + hi_src + '" width="150" height"150" src="' + low_src + '">';
 			}
 			
+			// Convert the string of images into jquery objects
 			objString = $(objString);
+			
+			// Add the elements to the isotope container and resort the items
 			$container.prepend( objString)
 				.isotope( 'reloadItems' )
 				.isotope({ sortBy: 'original-order' });
@@ -93,15 +94,26 @@
 	});
 	
 	
+	// When a user clicks on a thumbnail
 	$container.on( 'click', '.thumb', function(){
+		
+		// Remove the class large from all images
 		$('img').removeClass('large');
+		
+		// Get the url of the hi-res photo
+		var big = $(this).data('hires');
+		
+		// Replace the current src with the new hi-res photo
+		$(this).attr('src', big);
+		
+		// Add the class large to the clicked thumbnail
 		$(this).addClass('large');
+		
+		// After the image increaes in size run the reLayout method
 		$container.isotope('reLayout');
+		
 	});
 	
-
-	//var $newItem = $('<div style="width:150px; height:150px; background:#ccc;"></div>');
-	//$('#photos').isotope( 'insert', $newItem );
 	
 	
 	
