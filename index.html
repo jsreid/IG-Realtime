@@ -3,41 +3,64 @@
 
 <head>
 <title>CLT Instagram</title>
+<link rel="stylesheet" href="/style.css" type="text/css" media="screen" title="no title" charset="utf-8">
 
-<style type="text/css" media="screen">
-
-	body {
-		background: #ccc;
-	}
-	
-</style>
 </head>
 <body>
-	
-	<div class="instagram"></div>
-	<div class="photo"></div>
+	<div id="container">
+		<div class="thumb"></div>
+	</div>
+	<div id="photos"></div>
 
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-<script src="http://jsreid.jit.su/socket.io/socket.io.js"></script>
-<script>
+<!-- <script src="http://jsreid.jit.su/socket.io/socket.io.js"></script> -->
+<script src="/isotope.min.js" type="text/javascript" charset="utf-8"></script>
 
+
+
+<script type="text/javascript">
+
+//Load typekit
+/*(function() {
+	var config = {
+		kitId: 'wka6ghl',
+		scriptTimeout: 3000
+	};
+	var h=document.getElementsByTagName("html")[0];h.className+=" wf-loading";var t=setTimeout(function(){h.className=h.className.replace(/(\s|^)wf-loading(\s|$)/g," ");h.className+=" wf-inactive"},config.scriptTimeout);var tk=document.createElement("script"),d=false;tk.src='//use.typekit.net/'+config.kitId+'.js';tk.type="text/javascript";tk.async="true";tk.onload=tk.onreadystatechange=function(){var a=this.readyState;if(d||a&&a!="complete"&&a!="loaded")return;d=true;clearTimeout(t);try{Typekit.load(config)}catch(b){}};var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(tk,s)
+})(); */
+
+// Jquery
 (function($) {
 	
-
-	var socket = io.connect('http://jsreid.jit.su/');
+/*	var socket = io.connect('http://jsreid.jit.su/');
 	socket.on('photo', function (raw) {
 		var obj = JSON.parse(raw)['data'][0];
 		var photo = obj.images.low_resolution.url;
 		$('.photo').prepend('<img src="' + photo + '">&nbsp;');
-	});
+	}); */
+	
+	var objString;
+	
+	$('#container').isotope({
+		// options
+		itemSelector : '.item',
+		layoutMode : 'fitRows',
+		containerStyle: {
+			height: 'auto',
+			overflow: 'hidden'
+		}
+	});  
+	
+	
 	
 	
 	$.ajax({
 		type: "GET",
 		dataType: "jsonp",
 		cache: false,
-		url: "https://api.instagram.com/v1/geographies/1369637/media/recent?client_id=eec7fe0344b44e37a84f83e4a07d3e6a",
+		//url: "https://api.instagram.com/v1/geographies/1369637/media/recent?client_id=eec7fe0344b44e37a84f83e4a07d3e6a",
+		url: "https://api.instagram.com/v1/tags/nyc/media/recent?client_id=eec7fe0344b44e37a84f83e4a07d3e6a",
 		success: function(response) {
 			console.log(response);
 			
@@ -48,12 +71,30 @@
 			amount = amount - 1;
 			
 			// Loop through the available images and print to screen
-			for (var i = amount - 1; i >= 0; i--) {
-				var low_src = response.data[i].images.low_resolution.url;
-				$('.photo').prepend('<img src="' + low_src + '">&nbsp;');
+			for (var i = amount; i >= 0; i--) {
+				var low_src = response.data[i].images.thumbnail.url;
+				//$('#photos').prepend('<img class="thumb" src="' + low_src + '">');
+				
+				//objString += '<img class="thumb" src="' + low_src + '">';
+				objString += '<img class="thumb" src="">';
 			}
+			
+			objString = $(objString);
+			
+			
+			
+			//console.log($objString);
+			
 		}
 	});
+	
+
+		//$('#container').prepend( objString ).isotope( 'reloadItems' ).isotope({ sortBy: 'original-order' });
+
+	
+	//var $newItem = $('<div style="width:150px; height:150px; background:#ccc;"></div>');
+	//$('#photos').isotope( 'insert', $newItem );
+	
 	
 	
 })(jQuery);
