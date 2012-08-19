@@ -28,14 +28,13 @@
 
 <script type="text/javascript">
 
-//Load typekit
-(function() {
-	})();
+
+
 
 // Jquery
 (function($) {
 	
-	
+	//Load typekit
 	var config = {
 		kitId: 'wka6ghl',
 		scriptTimeout: 3000
@@ -58,10 +57,11 @@
 	var objString;
 	
 	$container.isotope({
-		sortBy: 'original-order'
+		sortBy: 'original-order',
+		masonry: {
+			columnWidth: 150
+		}
 	});
-	
-	
 	
 	
 	$.ajax({
@@ -82,7 +82,8 @@
 			// Loop through the available images and print to screen
 			for (var i = amount; i >= 0; i--) {
 				var low_src = response.data[i].images.thumbnail.url;
-				objString += '<img class="thumb" width="150" height"150" src="' + low_src + '">';
+				var hi_src = response.data[i].images.standard_resolution.url;
+				objString += '<img class="thumb" data-hires="' + hi_src + '" width="150" height"150" src="' + low_src + '">';
 			}
 			
 			objString = $(objString);
