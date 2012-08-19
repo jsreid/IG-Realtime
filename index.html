@@ -19,10 +19,10 @@
 
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-<!-- <script src="http://jsreid.jit.su/socket.io/socket.io.js"></script> -->
+
+<script src="http://jsreid.com:8080/socket.io/socket.io.js"></script>
+
 <script src="/isotope.min.js" type="text/javascript" charset="utf-8"></script>
-
-
 
 <script type="text/javascript">
 
@@ -40,12 +40,14 @@
 	var h=document.getElementsByTagName("html")[0];h.className+=" wf-loading";var t=setTimeout(function(){h.className=h.className.replace(/(\s|^)wf-loading(\s|$)/g," ");h.className+=" wf-inactive"},config.scriptTimeout);var tk=document.createElement("script"),d=false;tk.src='//use.typekit.net/'+config.kitId+'.js';tk.type="text/javascript";tk.async="true";tk.onload=tk.onreadystatechange=function(){var a=this.readyState;if(d||a&&a!="complete"&&a!="loaded")return;d=true;clearTimeout(t);try{Typekit.load(config)}catch(b){}};var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(tk,s)
 	
 
-/*	var socket = io.connect('http://jsreid.jit.su/');
+	var socket = io.connect('http://localhost');
+
 	socket.on('photo', function (raw) {
 		var obj = JSON.parse(raw)['data'][0];
 		var photo = obj.images.low_resolution.url;
-		$('.photo').prepend('<img src="' + photo + '">&nbsp;');
-	}); */
+		console.log('new photo');
+		//$('.photo').prepend('<img src="' + photo + '">&nbsp;');
+	});
 	
 	// Initialize some variables
 	var $container = $('#container'),

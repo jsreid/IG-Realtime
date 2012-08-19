@@ -1,7 +1,7 @@
 {
   "name": "instagram-realtime-demo",
   "author": "Jason Reid/Alex Miles <skatesc@gmail.com>",
-  "version": "0.1.0-81",
+  "version": "0.1.0-91",
   "description": "Node.js proof of concept of Instagram Realtime API",
   "main": "./app.js",
   "licenses": [
@@ -12,7 +12,8 @@
   "dependencies": {
     "express": "2.5",
     "socket.io": ">= 0.9.x",
-    "redis": "*",
+    "redis": "0.7.x",
+    "wizard": "0.0.0",
     "hiredis": "*"
   },
   "engines": {
