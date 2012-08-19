@@ -68,6 +68,11 @@ app.get('/isotope.min.js', function(request, response){
     response.end();
 });
 
+app.get('/functions.js', function(request, response){
+    response.writeHead(200, {'Content-Type': 'text/css'});
+    response.write(fs.readFileSync(__dirname + '/public/javascripts/functions.js', 'utf8'));
+    response.end();
+});
 
 // GET /
 //   Render index.html

@@ -1,3 +1,8 @@
+* {
+	margin:0px;
+	padding:0px;
+}
+
 body {
 	background:#fff;
 }
@@ -7,21 +12,32 @@ body {
 	visibility: hidden;
 }
 
+#container {
+	margin: 43px;
+}
+
 img {
-	max-width:100% ;
-	height:auto ;
+	max-width:100%;
+	height:auto;
 }
 
 .thumb {
 	background:#ccc;
-	width:150px;
-	height:150px;
-	margin:0 0 75px 0;
+	width: 175px;
+	height:175px;
+	margin:0 0 43px 0;
 }
 
 .large {
-	width: 600px;
-	height:600px;
+	width: 611px;
+	height:611px;
+}
+
+#info {
+	width: 400px;
+	height:400px;
+	margin:0 0 43px 0;
+	background:#ccc;
 }
 
 .isotope,
