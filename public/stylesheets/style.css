@@ -8,14 +8,15 @@ body {
 }
 
 img {
-	max-width:100%;
-	height:auto;
+	max-width:100% ;
+	height:auto ;
 }
 
 .thumb {
 	background:#ccc;
 	width:150px;
 	height:150px;
+	margin:0 0 75px 0;
 }
 
 .large {

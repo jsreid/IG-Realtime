@@ -13,7 +13,7 @@ var app = express(),
 // connect to Redis client
 // redis://nodejitsu:ad567e1e425c194175c024d19f71989f@cod.redistogo.com:10217/
 
-/*var redis = require("redis");
+var redis = require("redis");
 	var client = redis.createClient(10217, 'cod.redistogo.com');
 
 	client.auth('ad567e1e425c194175c024d19f71989f', function (err) {
@@ -42,7 +42,7 @@ var app = express(),
 	    });
 	  });
 	});
-	//end redis test */
+	//end redis test 
 
 
 // Remove debug messages from socket.io
