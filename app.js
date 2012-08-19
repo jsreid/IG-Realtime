@@ -5,19 +5,44 @@ var express = require('express'),
     https = require("https"),
     querystring = require('querystring');
 
-var app = express.createServer(),
-    io = require('socket.io').listen(app),
+var app = express(),
+	http = require('http'),
+    server = http.createServer(app),
+    io = require('socket.io').listen(server),
     port = (process.env.PORT || 8080);
 
 // connect to Redis client
 // redis://nodejitsu:ad567e1e425c194175c024d19f71989f@cod.redistogo.com:10217/
-var redis = require("redis"),
-	client = redis.createClient(10217, 'http://cod.redistogo.com', {parser: 'javascript'});
-	client.auth('nodejitsu', 'ad567e1e425c194175c024d19f71989f');
-	
-client.on("error", function (err) {
-	console.log("Error " + err);
-});
+var redis = require("redis");
+	var client = redis.createClient(10217, 'cod.redistogo.com');
+
+	client.auth('ad567e1e425c194175c024d19f71989f', function (err) {
+	  if (err) {
+	    throw err;
+	  }
+	});
+
+	client.on('ready', function () {
+
+	  // Set!
+	  client.set('foo', 'bar', function (err, res) {
+	    if (err) {
+	      throw err;
+	    }
+
+	    // Get!
+	    client.get('foo', function (err, foo) {
+	      if (err) {
+	        throw err;
+	      }
+
+	      console.log('foo = %s;', foo);
+
+	      client.quit();
+	    });
+	  });
+	});
+	//end redis test
 
 // Remove debug messages from socket.io
 io.set('log level', 1);
@@ -50,6 +75,7 @@ app.get('/', function(request, response){
 //   to check if the callback URL provided when creating the suscription
 //   is valid and works fine
 app.get('/callback', function(request, response){
+	console.log("Something accessed /callback");
   if(request.param("hub.challenge") != null){
     response.send(request.param("hub.challenge"));
   } else {
@@ -116,6 +142,6 @@ io.sockets.on('connection', function (socket) {
 });
 
 // Run the app
-app.listen(port, function(){
+server.listen(8080, function(){
   console.log("Listening in port %d", port);
 });
