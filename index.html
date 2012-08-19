@@ -5,77 +5,106 @@
 <title>CLT Instagram</title>
 
 
-</head>
 
+<link rel="stylesheet" href="/style.css" type="text/css" media="screen" title="no title" charset="utf-8">
+
+
+</head>
 <body>
 	
-	<div class="instagram"></div>
-	<div id="test"></div>
+	<span>Instagram</span>
 	
-	<!--
-	<script src="http://localhost:8080/socket.io/socket.io.js"></script>
-	<script>
-	  var socket = io.connect('http://localhost:8080');
-	
-		socket.emit('testconnection');
-	
-	  socket.on('instagram', function (data) {
-	    alert(data);
-	  });
-	</script>
--->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-<script src="http://localhost:8080/socket.io/socket.io.js"></script>
-<script>
-	var socket = io.connect('http://localhost:8080');
-	socket.on('connection', function (data) {
-		$('.instagram').append(data + '<br>');
-	});
-	
-	
-	
-	$(function() {
-		// var host = 'http://localhost';
-		var host = 'http://instagram-realtime-demo.herokuapp.com',
-		photos = [],
-		socket = io.connect(host);
-
-		socket.on('photo', function (raw) {
-			var photo = JSON.parse(raw)['data'][0];
-			photos.push(photo.link);
-			pushPhoto(photo);
-			$('h1').html('(' + photos.length + ' ' + (photos.length == 1 ? 'photo' : 'photos') + ')');
-		});
-
-
-
-		function pushPhoto(photo){
-			var date = new Date(parseInt(photo.created_time)*1000);
-			var formatedDate = 
-				date.getFullYear() + '-' + 
-				parseInt(date.getMonth()+1) + '-' + 
-				date.getDate() + ' ' + 
-				date.getUTCHours() + ':' + 
-				date.getUTCMinutes() + ':' + 
-				date.getUTCSeconds();
-		
-			var photo_src = photo.images.low_resolution.url;
-			var profile_pic = photo.user.profile_picture;
-			var username = photo.user.username;
-			var photo_link = photo.link;
-		
-			$('#test').append(
-				'<img  src="' + photo_src + '" alt=" " /><br/>' +
-				'<h1></h1>'
-				'<p>Time: ' + formatedDate + '</p>'
-			);
-		}
-		
-	});
-	
-</script>
-
-
+	<div id="container">
+		<div class="thumb"></div>
+	</div>
+	<div id="photos"></div>
 
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<!-- <script src="http://jsreid.jit.su/socket.io/socket.io.js"></script> -->
+<script src="/isotope.min.js" type="text/javascript" charset="utf-8"></script>
+
+
+
+<script type="text/javascript">
+
+//Load typekit
+(function() {
+	})();
+
+// Jquery
+(function($) {
+	
+	
+	var config = {
+		kitId: 'wka6ghl',
+		scriptTimeout: 3000
+	};
+	var h=document.getElementsByTagName("html")[0];h.className+=" wf-loading";var t=setTimeout(function(){h.className=h.className.replace(/(\s|^)wf-loading(\s|$)/g," ");h.className+=" wf-inactive"},config.scriptTimeout);var tk=document.createElement("script"),d=false;tk.src='//use.typekit.net/'+config.kitId+'.js';tk.type="text/javascript";tk.async="true";tk.onload=tk.onreadystatechange=function(){var a=this.readyState;if(d||a&&a!="complete"&&a!="loaded")return;d=true;clearTimeout(t);try{Typekit.load(config)}catch(b){}};var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(tk,s)
+	
+
+/*	var socket = io.connect('http://jsreid.jit.su/');
+	socket.on('photo', function (raw) {
+		var obj = JSON.parse(raw)['data'][0];
+		var photo = obj.images.low_resolution.url;
+		$('.photo').prepend('<img src="' + photo + '">&nbsp;');
+	}); */
+	
+
+	var $container = $('#container');
+	var $thumb = $('.thumb')
+	var objString;
+	
+	$container.isotope({
+		sortBy: 'original-order'
+	});
+	
+	
+	
+	
+	$.ajax({
+		type: "GET",
+		dataType: "jsonp",
+		cache: false,
+		//url: "https://api.instagram.com/v1/geographies/1369637/media/recent?client_id=eec7fe0344b44e37a84f83e4a07d3e6a",
+		url: "https://api.instagram.com/v1/tags/nyc/media/recent?client_id=eec7fe0344b44e37a84f83e4a07d3e6a",
+		success: function(response) {
+			console.log(response);
+			
+			// Get the amount of images in the recent images Instagram feed
+			var amount = response.data.length;
+			
+			// Subtract 1 from the length because the array starts at 0
+			amount = amount - 1;
+			
+			// Loop through the available images and print to screen
+			for (var i = amount; i >= 0; i--) {
+				var low_src = response.data[i].images.thumbnail.url;
+				objString += '<img class="thumb" width="150" height"150" src="' + low_src + '">';
+			}
+			
+			objString = $(objString);
+			$container.prepend( objString)
+				.isotope( 'reloadItems' )
+				.isotope({ sortBy: 'original-order' });
+			
+		}
+	});
+	
+	
+	$container.on( 'click', '.thumb', function(){
+		$('img').removeClass('large');
+		$(this).addClass('large');
+		$container.isotope('reLayout');
+	});
+	
+
+	//var $newItem = $('<div style="width:150px; height:150px; background:#ccc;"></div>');
+	//$('#photos').isotope( 'insert', $newItem );
+	
+	
+	
+})(jQuery);
+
+</script>
 </html>

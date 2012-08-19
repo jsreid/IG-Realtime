@@ -1,5 +1,4 @@
 var express = require('express'),
-
     util = require('util'),
     fs = require('fs'),
     https = require("https"),
@@ -9,6 +8,16 @@ var app = express.createServer(),
     io = require('socket.io').listen(app),
     port = (process.env.PORT || 8080);
 
+// connect to Redis client
+// redis://nodejitsu:ad567e1e425c194175c024d19f71989f@cod.redistogo.com:10217/
+/* var redis = require("redis"),
+	client = redis.createClient(10217, 'http://cod.redistogo.com', {parser: 'javascript'});
+	client.auth('nodejitsu', 'ad567e1e425c194175c024d19f71989f');  
+	
+client.on("error", function (err) {
+	console.log("Error " + err);
+}); */
+
 // Remove debug messages from socket.io
 io.set('log level', 1);
 
@@ -16,15 +25,22 @@ io.set('log level', 1);
 app.use(express.bodyParser());
 
 //INSTAGRAM CLIENT ID
-var instagram_client_id = 'dabe8eae6f75464ba43a7a4805aed29e';
+var instagram_client_id = 'eec7fe0344b44e37a84f83e4a07d3e6a';
 
 // GET /style.css
 //   Render public/stylesheets/style.css
 app.get('/style.css', function(request, response){
+	response.writeHead(200, {'Content-Type': 'text/css'});
+	response.write(fs.readFileSync(__dirname + '/public/stylesheets/style.css', 'utf8'));
+	response.end();
+});
+
+app.get('/isotope.min.js', function(request, response){
     response.writeHead(200, {'Content-Type': 'text/css'});
-    response.write(fs.readFileSync(__dirname + '/public/stylesheets/style.css', 'utf8'));
+    response.write(fs.readFileSync(__dirname + '/public/javascripts/isotope.min.js', 'utf8'));
     response.end();
 });
+
 
 // GET /
 //   Render index.html
@@ -55,12 +71,19 @@ app.get('/callback', function(request, response){
 //   It's necessary to perform another API call to get the last
 //   photo from that geography
 app.post('/callback', function(request, response){
+	//console.log('response ' + request.body);
   // request.body is a JSON already parsed
-	console.log('something just accessed /callback');
+	console.log('Recieved photo notification');
+	
+	 // io.sockets.emit('connection', 'New Photo!' );
+	
   request.body.forEach(function(notificationOjb){
     // Every notification object contains the id of the geography
     // that has been updated, and the photo can be obtained from
     // that geography
+	// https://api.instagram.com/v1/geographies/{geo-id}/media/recent?client_id=YOUR-CLIENT_IDs
+	console.log('Object ID: ' + notificationOjb.object_id);
+	console.log('Object: ' + notificationOjb.object);
     https.get({
       host: 'api.instagram.com',
       path: '/v1/geographies/' + notificationOjb.object_id + '/media/recent' +
@@ -69,6 +92,7 @@ app.post('/callback', function(request, response){
       var raw = "";
 
       res.on('data', function(chunk) {
+		//console.log('BODY: ' + chunk);
         raw += chunk;
       });
 
@@ -80,7 +104,7 @@ app.post('/callback', function(request, response){
         if(response['data'].length > 0 && response['data'][0]['location'] != null) {
 			//either send JSON here or an <img> tag??
           io.sockets.emit('photo', raw);
-			console.log("New Photo!");
+			console.log('Sent photo JSON to client');
         } else {
           console.log("ERROR: %s", util.inspect(response['meta']));
         }
@@ -93,7 +117,7 @@ app.post('/callback', function(request, response){
 });
 
 io.sockets.on('connection', function (socket) {
-  io.sockets.emit('connection', 'test' );
+  //io.sockets.emit('connection', 'user connected' );
 	console.log("connected");
 });
 
