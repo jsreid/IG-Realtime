@@ -34,10 +34,32 @@ img {
 }
 
 #info {
+	color:#fff;
 	width: 400px;
 	height:400px;
 	margin:0 0 43px 0;
-	background:#ccc;
+	overflow: hidden;
+	position: relative;
+	background:url('../images/paint.jpg');
+	-webkit-animation-name: header-pan;
+	-webkit-animation-duration: 120s;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: linear;
+	padding:20px;
+	
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+		-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+		box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+
+@-webkit-keyframes header-pan {
+	0% {
+		background-position: left top;
+	}
+	100% {
+		background-position: right bottom;
+	}
 }
 
 .isotope,

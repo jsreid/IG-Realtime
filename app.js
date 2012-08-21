@@ -54,25 +54,8 @@ app.use(express.bodyParser());
 //INSTAGRAM CLIENT ID
 var instagram_client_id = 'eec7fe0344b44e37a84f83e4a07d3e6a';
 
-// GET /style.css
-//   Render public/stylesheets/style.css
-app.get('/style.css', function(request, response){
-	response.writeHead(200, {'Content-Type': 'text/css'});
-	response.write(fs.readFileSync(__dirname + '/public/stylesheets/style.css', 'utf8'));
-	response.end();
-});
-
-app.get('/isotope.min.js', function(request, response){
-    response.writeHead(200, {'Content-Type': 'text/css'});
-    response.write(fs.readFileSync(__dirname + '/public/javascripts/isotope.min.js', 'utf8'));
-    response.end();
-});
-
-app.get('/functions.js', function(request, response){
-    response.writeHead(200, {'Content-Type': 'text/css'});
-    response.write(fs.readFileSync(__dirname + '/public/javascripts/functions.js', 'utf8'));
-    response.end();
-});
+// Get the static files
+app.use(express.static(__dirname + "/public"));
 
 // GET /
 //   Render index.html
