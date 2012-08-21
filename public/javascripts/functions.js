@@ -131,4 +131,27 @@
 	});
 	
 	
+	$container.on( 'click', '#close', function(){
+		if ($('#info').hasClass('small')) {
+			$('#info')
+				.removeClass('small')
+				.css({
+					'width' : '',
+					'height': ''
+				});
+			
+		} else {
+			$('#info')
+				.addClass('small')
+					.css({
+					'width' : '175px',
+					'height': '175px'
+				});
+		}
+		$container.isotope('reLayout');
+	});
+	
+	
+	
+	
 })(jQuery);

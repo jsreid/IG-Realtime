@@ -33,6 +33,7 @@ img {
 	height:611px;
 }
 
+
 #info {
 	color:#fff;
 	width: 400px;
@@ -45,11 +46,25 @@ img {
 	-webkit-animation-duration: 120s;
 	-webkit-animation-iteration-count: infinite;
 	-webkit-animation-timing-function: linear;
-	padding:20px;
+	padding:30px;
 	
 	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
 		-moz-box-sizing: border-box;    /* Firefox, other Gecko */
 		box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+#info p {
+	width:300px;
+	font-size:15px;
+}
+
+#close {
+	background:url('../images/close.png');
+	width:18px;
+	height:18px;
+	position:absolute;
+	top:20px;
+	right:20px;
 }
 
 
